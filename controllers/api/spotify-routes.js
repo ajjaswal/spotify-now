@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQDUYpDw29r9Nn5GG1vacf5EIYHHXhh1DlxC4pvyUKR7yffLO8LPi1KVYdoJtypBdG3KfA9eX7qy8-HlkcbIGjqboERt04ZQKDGLDT4n8tgHiPJTw6YHbQj__y0ehkaad-N8TQaS6CD5zxr_leGMtkvzg7GxxTrypgZ8Pkp5jWvLanEqvF1D8GoyNXY5ylAn0YMiWsVQCpSiIGhGHsRSTNSTXMabZCisIEASgDsrnIFMcwiy-6p0XBlgwYTMJ5mWwh-yyl7s0YjJWB689bzpHzIxBzAwj9bems9_KNvq1Bvjmpe0G49-oL8QM--ppoJ39Iui__g";
+const token ="BQCaO0030JEg8h-UafDlboeA8_uajcr3xGzHucLZ5XBO4LHFWhgxZIF0BTOVQTZxDFIbVvq31QXJSKjp4uWkSexTz-LxCxA10KXkemOgbDxQwhIL4o7BXhS8yxjpKfBZ_gO5Gke3Vl1aTpQs5O5SXZrCR0obyKIyjKkMgslwmP4d7srQdYboISzSwpc60gcWaC6TaWYKRtZOSREjOSDaaZCFyIzd1tWsqrhrRspuMzZYBFoJsgM5-rnjFtPNW1_cxbMuEx8RSCNHdbElbQpyOKJvzNkbmTM-LYktBUGFBPO-kOw27UHWEXV9b_LQ";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: '09efa3cfa0e84b848255d04d42cd5ed8',
