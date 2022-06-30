@@ -136,7 +136,7 @@ app.engine('hbs', exphbs.engine( {extname: '.hbs'}));
 app.set('view engine', 'hbs');
 
 //handlebars routes 
-app.get('', (req, res) => {
+app.get('/', (req, res) => {
   res.render('home');
 });
 
