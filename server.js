@@ -1,5 +1,7 @@
 const express = require('express');
 var SpotifyWebApi = require('spotify-web-api-node');
+const routes = require('./controllers');
+
 // what data we want to access 
 const scopes = [
     'ugc-image-upload',
@@ -21,16 +23,17 @@ const scopes = [
     'user-read-recently-played',
     'user-follow-read',
     'user-follow-modify'
-
 ];
+
 const app = express();
 const PORT = process.env.PORT || 3001;
+
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
 var spotifyApi = new SpotifyWebApi({
-    clientId:'09efa3cfa0e84b848255d04d42cd5ed8',
-    clientSecret: 'a8ad2114b90045c8893d02d6446fabb0',
-    redirectUri: 'http://localhost:3001/callback'
+  clientId: '87505eacdc8642e1bcfee43d5ddca989',
+  clientSecret: 'b9e0df3f205b42e0809ea37e1365c68e',
+  redirectUri: 'http://localhost:3001/callback'
 });
 
 // go to this link to get access token in console
@@ -38,8 +41,7 @@ app.get('/login', (req, res) => {
     res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
-
-// https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/tutorial/00-get-access-token.js
+// spotify api parses data and gives access token
 app.get('/callback', (req, res) => {
     const error = req.query.error;
     const code = req.query.code;
@@ -85,39 +87,9 @@ app.get('/callback', (req, res) => {
   });
 
   // access token from /login route
-  const token = 'BQBj54ygWao5JT9LIdHWPVm-ywocy4riDvnXmp-MVr5K_2KTQLnKlODRXVEU3fO3QZJqyusLJgJkZ7T6h5GC1OBxbiGiLHhYQXz196G0gVlAosA4kZ9Pl7XAiupGNGDZujg2iVXnABp6AGz4OyudayKU0ucuGNZgiMt34oX3_AXw2k2D9-xoNNEo2yTOMSlBERmH0MgRF8eN7bsec8MEUsTCSypeksrvC4IzoEfCcDYC2fzmSdY48KpjK0l_gzQDAc7rg_N7bbWX1Pj0I6U4Glpso-70Tc31A3QfcPUUsq1umltaNRJJf38y0hMY';
-  spotifyApi.setAccessToken(token);
+  // const token = 'BQB85_rjYbw4PH-tA9-3qR4oOVhaF_JZkRIOEofNraNlfR_K_RepCOoHP8lP0KDPWPSDuZLcj6KaJ-i2izkH6O0cUyTby3Pfcadbq8PKMNcD-81j00qScS4iXHVbqVYe_T5TGyT9qOdF-1RJ7KvWx3fDEKcgnGIL6oU7lNAkb9gCQFYt55OnzOXpGqWeDpqySk-DbGPEqdVWwEjy6tPbLR0E_MviNDQ9LAz3_mjOPIjIRWbIfk3jBY7jH_Yvm2Fc8-GsMagwNydTdjn8a4UzBmz-IqBo1cap2D_SGIeJAi7mxOJpzf81WhP7HjNNqBtjZo5g41k';
+  // spotifyApi.setAccessToken(token);
 
-  
-  /*
-  // user information
-  spotifyApi.getMe()
-  .then(function(data) {
-    console.log('Some information about the authenticated user', data.body);
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
- */
+app.use(routes);
 
-  /*
-  // get users top artists
-  spotifyApi.getMyTopArtists()
-  .then(function(data) {
-    let topArtists = data.body.items;
-    console.log(topArtists);
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
- */
-
-  /*
-  // get users top tracks
-  spotifyApi.getMyTopTracks()
-  .then(function(data) {
-    let topTracks = data.body.items;
-    console.log(topTracks);
-  }, function(err) {
-    console.log('Something went wrong!', err);
-  });
- */
-app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}/login`));
+app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}`));
