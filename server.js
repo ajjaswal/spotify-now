@@ -48,6 +48,8 @@ app.get('/login', (req, res) => {
     res.redirect(spotifyApi.createAuthorizeURL(scopes));
 });
 
+//allow public folder
+app.use(express.static(__dirname + '/public'));
 
 // https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/tutorial/00-get-access-token.js
 app.get('/callback', (req, res) => {
