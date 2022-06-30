@@ -1,5 +1,16 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+
 var SpotifyWebApi = require('spotify-web-api-node');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+//parsing middleware
+//parse application
+app.use(bodyParser.urlencoded({extended: false}));
+
 // what data we want to access 
 const scopes = [
     'ugc-image-upload',
@@ -23,8 +34,7 @@ const scopes = [
     'user-follow-modify'
 
 ];
-const app = express();
-const PORT = process.env.PORT || 3001;
+
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
 var spotifyApi = new SpotifyWebApi({
@@ -120,4 +130,14 @@ app.get('/callback', (req, res) => {
     console.log('Something went wrong!', err);
   });
  */
+
+//templating engine 
+app.engine('hbs', exphbs.engine( {extname: '.hbs'}));
+app.set('view engine', 'hbs');
+
+//handlebars routes 
+app.get('', (req, res) => {
+  res.render('home');
+});
+
 app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}/login`));
