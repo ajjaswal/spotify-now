@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ajjaswal/spotify-now#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-handlebars": "^6.0.6",
