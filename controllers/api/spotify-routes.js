@@ -36,7 +36,7 @@ router.get('/songs', (req, res) => {
                     artist: data.artists[0].name
                 }
             });
-            res.json(topSongs);
+            res.json(topTracks);
         })
         .catch(err => {
             console.log(err);
@@ -55,7 +55,8 @@ router.get('/artists', (req, res) => {
                     name: data.name,
                     followers: data.followers.total,
                     popularity: data.popularity,
-                    link: data.external_urls.spotify
+                    link: data.external_urls.spotify,
+                    image: data.images[0].url
                 }
             });
             res.json(topArtists);
