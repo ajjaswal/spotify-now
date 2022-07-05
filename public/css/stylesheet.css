@@ -1,0 +1,12 @@
+.jumbotron {
+    height:100vh; 
+    background: linear-gradient(-70deg, rgba(0, 0, 0, 0)  60%, #6AFF7F 50%), url('/assets/duotone.jpg') no-repeat center center fixed;
+    margin-bottom : 0px;
+    padding-top:30vh; 
+    padding-left:10vh;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover; 
+}
+
