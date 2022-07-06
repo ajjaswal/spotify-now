@@ -1,13 +1,15 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQA5v99_GiIP2xcxcKJWbkXgCQnnUzH2s3GUZLxocksYxs8Dtx-XKSL5yrznmMKTJNjTgk7JT_6m3TVJyl1gui_1_i_r3bjv993lKGmYY_9Qc9D7ndlRn_vLcnVQFBToXfEy4b92Eb9BK9gCG-8PwlX_gxHXxfdtdMTNonMRr3T4fVeRAuE_tW7M_EVvwXy2Hh4eDkhKLHPm8UZsY4v_nfURx1zaHCZZBIT0E4gMe6wT5E4llDSuIN7vJrrlhxE7N1ArkFNdLOjFrgmSFgLe6kJudotxGx_Z1pXmnjgURGAbwGxf-tOvhSvdRpaaBwn32sF5HPQ";
+const token ="BQC9zOwbE0eWBlWL0thO5Ri92AFkMwtU_fa3mF8DyKJw09ZrmC8NfqDhQ0CTmSz-UPF-XkafhggE0by_6rLNT0iTVH7Up6NDzCn_K8tBeLX9YEcT_bIftZsy6YmkinvmzGPqTsGP9Op05Kgy8mk33n8HTifCf-rhMDjK5zXphb_BWWTRxhrqI3ZVvJWXhAxm_B2eGBoQ0XdGfSauI55Z2equMcte9iZC4a4OmevNXCrhtz-FQcBBiiZ5EuYZqoavVC4wvg15jgyPdPfHb6Op3ltEKz5xlrBVpIa_WL3u2-_WbaTgZohrvq4Msux0mBnIq0cV3Q";
 
 const spotifyApi = new SpotifyWebApi({
-    clientId: '87505eacdc8642e1bcfee43d5ddca989',
-    clientSecret: 'b9e0df3f205b42e0809ea37e1365c68e',
+    clientId: 'be6d6cea500242db91d8960be9638a5d',
+    clientSecret: '2c1169e6b3cb44359989797fddc1954f',
     redirectUri: 'http://localhost:3001/callback'
+    
 });
 spotifyApi.setAccessToken(token);
+
 
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
@@ -16,11 +18,13 @@ router.get('/', (req, res) => {
             let info = data.body;
             // gets user's display name
             let username = { 'username': info.display_name}
-            res.json(username); 
+            res.json(info); 
+            return;
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
+            return;
         });
 }); 
 
@@ -36,7 +40,8 @@ router.get('/songs', (req, res) => {
                     artist: data.artists[0].name
                 }
             });
-            res.json(topSongs);
+            res.json(topTracks);
+            
         })
         .catch(err => {
             console.log(err);
@@ -52,19 +57,24 @@ router.get('/artists', (req, res) => {
             // filters data to only the artists name, followers, popularity index, and link respective link to spotify
             let topArtists = artists.map((data) => {
                 return {
+                    id: artists.indexOf(data) + 1,
                     name: data.name,
                     followers: data.followers.total,
                     popularity: data.popularity,
                     link: data.external_urls.spotify
                 }
             });
-            res.json(topArtists);
+           
+            res.json(artists);
+            
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
+
+
 
 
 

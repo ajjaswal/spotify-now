@@ -1,12 +1,93 @@
+
 .jumbotron {
     height:100vh; 
-    background: linear-gradient(-70deg, rgba(0, 0, 0, 0)  60%, #6AFF7F 50%), url('/assets/duotone.jpg') no-repeat center center fixed;
+    background: linear-gradient(-70deg, rgba(0, 0, 0, 0)  60%, #70df6e 50%), url('/assets/duotone.jpg') no-repeat center center fixed;
     margin-bottom : 0px;
     padding-top:30vh; 
     padding-left:10vh;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover; 
+    background-size: cover;
+    font-family: 'Gotham';
+    overflow: hidden;
+   
+
 }
 
+.title-jumbo {
+    font-family: 'Gotham Ultra';
+    font-size: 6em;
+    font-weight: 700;
+    font-style:italic;
+    color:#fffffd;
+}
+.sub-title-jumbo {
+    color: #252d65;
+    font-weight:500;
+    font-size:1.5em; 
+    font-style: italic;
+}
+body {
+    background-color:#70df6e;
+}
+.table {
+    max-width: 75%;
+    table-layout: fixed;
+    
+}
+
+
+.artist-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top:10px;
+    font-family: 'Gotham';
+}
+
+img {
+    max-width: 100%;
+    max-height:100%;
+    width:100px;
+    height:100px;
+}
+
+.artist-intro {
+    padding:10px;
+    text-align: center;
+    font-family: 'Gotham';
+}
+
+@media screen and (max-width: 480px) {
+    .jumbotron {
+        height:100vh; 
+        background: linear-gradient(-70deg, rgba(0, 0, 0, 0)  60%, #70df6e 50%), url('/assets/duotone.jpg') no-repeat center center fixed;
+        margin-bottom : 0px;
+        padding-top:20vh; 
+        padding-left:0px;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        font-family: 'Gotham';
+        overflow: hidden;
+        text-align: center;
+         
+    }
+    .title-jumbo {
+        font-family: 'Gotham Ultra';
+        font-size: 5em;
+        font-weight: 700;
+        font-style:italic;
+        color:#fffffd;
+    }
+    .sub-title-jumbo {
+        display: none;
+        color: #252d65;
+        font-weight:500;
+        font-size:1em; 
+        font-style: italic;
+    }
+
+
+  }
