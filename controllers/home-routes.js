@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 // temporary spotify token and api dependencies
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQBtaXc_DuqXVx6THr0m5rbak9lA9ZyJg5o4LEqrfMtpXe_jQX9h8HSoOqHuAmFCTLFLcwoAeUt-HARqJ4zjBNnh8QMZWIlkCJacqjnNVyW0cbChrHaymCnZrWMqHxAWAiCnxwgR3j4e0U3Wk7EckLkRFy4fG26hf22nLWlqTngqpcJ5v6bJ8_geV5x9D1Az_pzzN6uZ9y1L2PYyOd0ORoswcRciGYIK6XnI4PxQj79RYY887EZsY8W76UQJiiMWqxV2H76AQxo42nR3U5ubYsgvsAWQeDdiiVpe7Zazwlmu-Zryc4jnL50UslOEfG2WVswkIKM";
+const token ="BQA2IZ9zBjoT872W_ZZ0qt5PW4nCe4sNdCmyAKbT3LOH9-MnUlCMZZmiCDan-RehfxDhgPJXgM1lVo4EwdHoWpRZmoJIHfNOgm5Y_k5sbH8ZP70PurAF88Nm_KVJekBSBXKbMaFfdvbRO7kJrUhPnqKVqk1Juq30ZDcf1DWU67JKWluz19k9an3KCpQkdCilpZ2xQIVhCer1XWE5szM6POWz4bX0z7vsFZYBZL6UGyGVVLB9BXjhOaj45D1UyLlYBNgynI_fUME-OQcEpuiwZn9YO3CiPaznnfi_Iw3rVQvpFtyO5VGJ7EJnQ4PDtLy2IqPb3sU";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: '87505eacdc8642e1bcfee43d5ddca989',
@@ -35,7 +35,6 @@ router.get('/stats', (req, res) => {
             artists.forEach((item, i) => {
                 item.id = i + 1
             });
-            console.log(artists)
             res.render('stats', {artists});
         })
 });

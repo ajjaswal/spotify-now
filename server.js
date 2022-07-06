@@ -95,6 +95,8 @@ app.get('/callback', (req, res) => {
       console.error('Error getting Tokens:', error);
       res.send(`Error getting Tokens: ${error}`);
     });
+
+    window.location.redirect('/stats')
 });
 
 
