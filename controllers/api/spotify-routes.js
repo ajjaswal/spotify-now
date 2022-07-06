@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQA5v99_GiIP2xcxcKJWbkXgCQnnUzH2s3GUZLxocksYxs8Dtx-XKSL5yrznmMKTJNjTgk7JT_6m3TVJyl1gui_1_i_r3bjv993lKGmYY_9Qc9D7ndlRn_vLcnVQFBToXfEy4b92Eb9BK9gCG-8PwlX_gxHXxfdtdMTNonMRr3T4fVeRAuE_tW7M_EVvwXy2Hh4eDkhKLHPm8UZsY4v_nfURx1zaHCZZBIT0E4gMe6wT5E4llDSuIN7vJrrlhxE7N1ArkFNdLOjFrgmSFgLe6kJudotxGx_Z1pXmnjgURGAbwGxf-tOvhSvdRpaaBwn32sF5HPQ";
+const token ="BQBtaXc_DuqXVx6THr0m5rbak9lA9ZyJg5o4LEqrfMtpXe_jQX9h8HSoOqHuAmFCTLFLcwoAeUt-HARqJ4zjBNnh8QMZWIlkCJacqjnNVyW0cbChrHaymCnZrWMqHxAWAiCnxwgR3j4e0U3Wk7EckLkRFy4fG26hf22nLWlqTngqpcJ5v6bJ8_geV5x9D1Az_pzzN6uZ9y1L2PYyOd0ORoswcRciGYIK6XnI4PxQj79RYY887EZsY8W76UQJiiMWqxV2H76AQxo42nR3U5ubYsgvsAWQeDdiiVpe7Zazwlmu-Zryc4jnL50UslOEfG2WVswkIKM";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: '87505eacdc8642e1bcfee43d5ddca989',
@@ -33,10 +33,11 @@ router.get('/songs', (req, res) => {
             let topSongs = topTracks.map((data) => {
                 return {
                     song: data.name,
-                    artist: data.artists[0].name
+                    artist: data.artists[0].name,
+                    image: data.album.images[1].url
                 }
             });
-            res.json(topTracks);
+            res.json(topSongs);
         })
         .catch(err => {
             console.log(err);

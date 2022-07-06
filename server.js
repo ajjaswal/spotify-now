@@ -1,6 +1,19 @@
 const express = require('express');
 var SpotifyWebApi = require('spotify-web-api-node');
 const routes = require('./controllers');
+const path = require('path')
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// add express handlebars
+const exphbs = require('express-handlebars');
+const hbs = exphbs.create({})
+app.engine('hbs', exphbs.engine( {extname: '.hbs'}));
+app.set('view engine', 'hbs');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // what data we want to access 
 const scopes = [
@@ -24,9 +37,6 @@ const scopes = [
     'user-follow-read',
     'user-follow-modify'
 ];
-
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
@@ -87,9 +97,7 @@ app.get('/callback', (req, res) => {
     });
 });
 
-  // access token from /login route
-  // const token = 'BQB85_rjYbw4PH-tA9-3qR4oOVhaF_JZkRIOEofNraNlfR_K_RepCOoHP8lP0KDPWPSDuZLcj6KaJ-i2izkH6O0cUyTby3Pfcadbq8PKMNcD-81j00qScS4iXHVbqVYe_T5TGyT9qOdF-1RJ7KvWx3fDEKcgnGIL6oU7lNAkb9gCQFYt55OnzOXpGqWeDpqySk-DbGPEqdVWwEjy6tPbLR0E_MviNDQ9LAz3_mjOPIjIRWbIfk3jBY7jH_Yvm2Fc8-GsMagwNydTdjn8a4UzBmz-IqBo1cap2D_SGIeJAi7mxOJpzf81WhP7HjNNqBtjZo5g41k';
-  // spotifyApi.setAccessToken(token);
+
 
 app.use(routes);
 

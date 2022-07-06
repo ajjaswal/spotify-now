@@ -8,12 +8,14 @@
     </tr>
   </thead>
   <tbody>
+    {{#each artists as |artist|}}
     <tr>
       <th scope="row">1</th>
-      <td>Mark</td>
+      <td>{{artist.name}}</td>
       <td>Otto</td>
       <td>@mdo</td>
     </tr>
+    {{/each}}
     <tr>
       <th scope="row">2</th>
       <td>Jacob</td>
