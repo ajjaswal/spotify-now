@@ -1,6 +1,14 @@
+const path = require('path');
 const express = require('express');
+const exphbs = require('express-handlebars');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+var access_token;
+
 var SpotifyWebApi = require('spotify-web-api-node');
-const routes = require('./controllers');
+
 
 // what data we want to access 
 const scopes = [
@@ -25,20 +33,29 @@ const scopes = [
     'user-follow-modify'
 ];
 
-const app = express();
-const PORT = process.env.PORT || 3001;
+const hbs = exphbs.create({});
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(require('./controllers/'));
 
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
 var spotifyApi = new SpotifyWebApi({
-  clientId: '87505eacdc8642e1bcfee43d5ddca989',
-  clientSecret: 'b9e0df3f205b42e0809ea37e1365c68e',
+  clientId: 'be6d6cea500242db91d8960be9638a5d',
+  clientSecret: '2c1169e6b3cb44359989797fddc1954f',
   redirectUri: 'http://localhost:3001/callback'
 });
 
 // go to this link to get access token in console
 app.get('/login', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  
+  
 });
 
 // spotify api parses data and gives access token
@@ -56,7 +73,7 @@ app.get('/callback', (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then(data => {
-      const access_token = data.body['access_token'];
+       access_token = data.body['access_token'];
       const refresh_token = data.body['refresh_token'];
       const expires_in = data.body['expires_in'];
 
@@ -80,6 +97,7 @@ app.get('/callback', (req, res) => {
         spotifyApi.setAccessToken(access_token);
         getMe();
       }, expires_in / 2 * 1000);
+      startStat();
     })
     .catch(error => {
       console.error('Error getting Tokens:', error);
@@ -87,10 +105,6 @@ app.get('/callback', (req, res) => {
     });
 });
 
-  // access token from /login route
-  // const token = 'BQB85_rjYbw4PH-tA9-3qR4oOVhaF_JZkRIOEofNraNlfR_K_RepCOoHP8lP0KDPWPSDuZLcj6KaJ-i2izkH6O0cUyTby3Pfcadbq8PKMNcD-81j00qScS4iXHVbqVYe_T5TGyT9qOdF-1RJ7KvWx3fDEKcgnGIL6oU7lNAkb9gCQFYt55OnzOXpGqWeDpqySk-DbGPEqdVWwEjy6tPbLR0E_MviNDQ9LAz3_mjOPIjIRWbIfk3jBY7jH_Yvm2Fc8-GsMagwNydTdjn8a4UzBmz-IqBo1cap2D_SGIeJAi7mxOJpzf81WhP7HjNNqBtjZo5g41k';
-  // spotifyApi.setAccessToken(token);
-
-app.use(routes);
-
 app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}`));
+
+module.exports = access_token;

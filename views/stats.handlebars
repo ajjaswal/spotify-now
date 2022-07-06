@@ -1,0 +1,23 @@
+<div class = "artist-wrapper">
+  <table class="table table-responsive{-sm|-md|-lg|-xl} table-sm table-dark" id="top-artists">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">artist</th>
+        <th scope="col">Followers</th>
+        <th scope="col">Popularity Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each artist}}
+      <tr>
+        <th scope="row">{{id}}</th>
+        <td>{{name}}</td>
+        <td>{{followers}}</td>
+        <td>{{popularity}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+</div>

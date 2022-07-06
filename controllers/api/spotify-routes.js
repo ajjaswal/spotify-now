@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQA5v99_GiIP2xcxcKJWbkXgCQnnUzH2s3GUZLxocksYxs8Dtx-XKSL5yrznmMKTJNjTgk7JT_6m3TVJyl1gui_1_i_r3bjv993lKGmYY_9Qc9D7ndlRn_vLcnVQFBToXfEy4b92Eb9BK9gCG-8PwlX_gxHXxfdtdMTNonMRr3T4fVeRAuE_tW7M_EVvwXy2Hh4eDkhKLHPm8UZsY4v_nfURx1zaHCZZBIT0E4gMe6wT5E4llDSuIN7vJrrlhxE7N1ArkFNdLOjFrgmSFgLe6kJudotxGx_Z1pXmnjgURGAbwGxf-tOvhSvdRpaaBwn32sF5HPQ";
+const token ="BQAfl7NT846dL3j0EBMjhNY9zS1Y9bk4KES10-kyTHWqgzVVJIeAgtLvLZLxCDJRtTG1tNKb4Mk8cjBfbMh-hVbHIpAvTqvrQubLv48zE0oUDMuLAzKeE3Wt-lXn0ic0C9jnp5SFAOJdtLGH6l2PX-1VnX4KIdr7365yAmfQDrY0YkznFx_LRtlkxJdJC4U5OR8ATmCKTS1fTnUQIIcL4aKmUTnIENgfFsW9O4DRZJYiZ4kvk0GlcnTjc_6fUjZkoyVCJlVkxj4Vh0tEnXFOkArNVlgzQv0hv-AHBawQI6fPfOteBXKHRiQik39uKwTySpp_sA";
 
 const spotifyApi = new SpotifyWebApi({
-    clientId: '87505eacdc8642e1bcfee43d5ddca989',
-    clientSecret: 'b9e0df3f205b42e0809ea37e1365c68e',
+    clientId: 'be6d6cea500242db91d8960be9638a5d',
+    clientSecret: '2c1169e6b3cb44359989797fddc1954f',
     redirectUri: 'http://localhost:3001/callback'
+    
 });
 spotifyApi.setAccessToken(token);
 
@@ -37,6 +38,7 @@ router.get('/songs', (req, res) => {
                 }
             });
             res.json(topSongs);
+            
         })
         .catch(err => {
             console.log(err);
@@ -52,19 +54,24 @@ router.get('/artists', (req, res) => {
             // filters data to only the artists name, followers, popularity index, and link respective link to spotify
             let topArtists = artists.map((data) => {
                 return {
+                    id: artists.indexOf(data) + 1,
                     name: data.name,
                     followers: data.followers.total,
                     popularity: data.popularity,
                     link: data.external_urls.spotify
                 }
             });
-            res.json(topArtists);
+           
+            res.render('stats', {
+                artist: topArtists});
+            
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
+
 
 
 
