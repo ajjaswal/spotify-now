@@ -23,13 +23,20 @@ router.get('/stats', (req, res) => {
         .then(data => {
             let artistdata = data.body.items;
             // filters data to only the artists name, followers, popularity index, and link respective link to spotify
-            let artists = artistdata.map(data => {return { name: data.name,
+            let artists = artistdata.map(data => 
+                ({
+                    name: data.name,
                     followers: data.followers.total,
                     popularity: data.popularity,
                     link: data.external_urls.spotify,
-                    image: data.images[0].url }
+                    image: data.images[0].url 
+                })
+            );
+            artists.forEach((item, i) => {
+                item.id = i + 1
             });
-            res.render('stats', artists);
+            console.log(artists)
+            res.render('stats', {artists});
         })
 });
 
