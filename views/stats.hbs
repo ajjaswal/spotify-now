@@ -1,20 +1,22 @@
-<table class="table table-dark">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Followers</th>
-      <th scope="col">Popularity Index</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each artists as |artist|}}
-    <tr>
-      <th scope="row">{{artist.id}}</th>
-      <td>{{artist.name}}</td>
-      <td>{{artist.followers}}</td>
-      <td>{{artist.popularity}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<div class = "artist-wrapper">
+  <table class="table table-responsive{-sm|-md|-lg|-xl} table-sm table-dark" id="top-artists">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">artist</th>
+        <th scope="col">Followers</th>
+        <th scope="col">Popularity Index</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each artists}}
+      <tr>
+        <th scope="row">{{id}}</th>
+        <td>{{name}}</td>
+        <td>{{followers}}</td>
+        <td>{{popularity}}</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

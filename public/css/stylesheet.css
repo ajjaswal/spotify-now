@@ -10,3 +10,18 @@
     background-size: cover; 
 }
 
+body {
+    background-color: #6AFF7F;
+}
+.table {
+    max-width: 75%;
+    table-layout: fixed;
+    word-wrap: break-word;    
+}
+
+
+.artist-wrapper {
+    display: flex;
+    justify-content: center;
+    padding-top:10px;
+}
