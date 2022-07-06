@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQAfl7NT846dL3j0EBMjhNY9zS1Y9bk4KES10-kyTHWqgzVVJIeAgtLvLZLxCDJRtTG1tNKb4Mk8cjBfbMh-hVbHIpAvTqvrQubLv48zE0oUDMuLAzKeE3Wt-lXn0ic0C9jnp5SFAOJdtLGH6l2PX-1VnX4KIdr7365yAmfQDrY0YkznFx_LRtlkxJdJC4U5OR8ATmCKTS1fTnUQIIcL4aKmUTnIENgfFsW9O4DRZJYiZ4kvk0GlcnTjc_6fUjZkoyVCJlVkxj4Vh0tEnXFOkArNVlgzQv0hv-AHBawQI6fPfOteBXKHRiQik39uKwTySpp_sA";
+const token ="BQC9zOwbE0eWBlWL0thO5Ri92AFkMwtU_fa3mF8DyKJw09ZrmC8NfqDhQ0CTmSz-UPF-XkafhggE0by_6rLNT0iTVH7Up6NDzCn_K8tBeLX9YEcT_bIftZsy6YmkinvmzGPqTsGP9Op05Kgy8mk33n8HTifCf-rhMDjK5zXphb_BWWTRxhrqI3ZVvJWXhAxm_B2eGBoQ0XdGfSauI55Z2equMcte9iZC4a4OmevNXCrhtz-FQcBBiiZ5EuYZqoavVC4wvg15jgyPdPfHb6Op3ltEKz5xlrBVpIa_WL3u2-_WbaTgZohrvq4Msux0mBnIq0cV3Q";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
@@ -10,6 +10,7 @@ const spotifyApi = new SpotifyWebApi({
 });
 spotifyApi.setAccessToken(token);
 
+
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
     spotifyApi.getMe()
@@ -17,11 +18,13 @@ router.get('/', (req, res) => {
             let info = data.body;
             // gets user's display name
             let username = { 'username': info.display_name}
-            res.json(username); 
+            res.json(info); 
+            return;
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
+            return;
         });
 }); 
 
@@ -37,7 +40,7 @@ router.get('/songs', (req, res) => {
                     artist: data.artists[0].name
                 }
             });
-            res.json(topSongs);
+            res.json(topTracks);
             
         })
         .catch(err => {
@@ -62,8 +65,7 @@ router.get('/artists', (req, res) => {
                 }
             });
            
-            res.render('stats', {
-                artist: topArtists});
+            res.json(artists);
             
         })
         .catch(err => {
@@ -71,6 +73,7 @@ router.get('/artists', (req, res) => {
             res.status(500).json(err);
         });
 });
+
 
 
 

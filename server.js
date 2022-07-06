@@ -5,32 +5,32 @@ const exphbs = require('express-handlebars');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-var access_token;
+
 
 var SpotifyWebApi = require('spotify-web-api-node');
 
 
 // what data we want to access 
 const scopes = [
-    'ugc-image-upload',
-    'user-read-playback-state',
-    'user-modify-playback-state',
-    'user-read-currently-playing',
-    'streaming',
-    'app-remote-control',
-    'user-read-email',
-    'user-read-private',
-    'playlist-read-collaborative',
-    'playlist-modify-public',
-    'playlist-read-private',
-    'playlist-modify-private',
-    'user-library-modify',
-    'user-library-read',
-    'user-top-read',
-    'user-read-playback-position',
-    'user-read-recently-played',
-    'user-follow-read',
-    'user-follow-modify'
+  'ugc-image-upload',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+  'user-read-currently-playing',
+  'streaming',
+  'app-remote-control',
+  'user-read-email',
+  'user-read-private',
+  'playlist-read-collaborative',
+  'playlist-modify-public',
+  'playlist-read-private',
+  'playlist-modify-private',
+  'user-library-modify',
+  'user-library-read',
+  'user-top-read',
+  'user-read-playback-position',
+  'user-read-recently-played',
+  'user-follow-read',
+  'user-follow-modify'
 ];
 
 const hbs = exphbs.create({});
@@ -54,8 +54,8 @@ var spotifyApi = new SpotifyWebApi({
 // go to this link to get access token in console
 app.get('/login', (req, res) => {
   res.redirect(spotifyApi.createAuthorizeURL(scopes));
-  
-  
+
+
 });
 
 // spotify api parses data and gives access token
@@ -73,7 +73,7 @@ app.get('/callback', (req, res) => {
   spotifyApi
     .authorizationCodeGrant(code)
     .then(data => {
-       access_token = data.body['access_token'];
+      const access_token = data.body['access_token'];
       const refresh_token = data.body['refresh_token'];
       const expires_in = data.body['expires_in'];
 
@@ -86,7 +86,7 @@ app.get('/callback', (req, res) => {
       console.log(
         `Sucessfully retreived access token. Expires in ${expires_in} s.`
       );
-      res.send('Success! You can now close the window.');
+      //res.send('Success! You can now close the window.');
 
       setInterval(async () => {
         const data = await spotifyApi.refreshAccessToken();
@@ -95,9 +95,68 @@ app.get('/callback', (req, res) => {
         console.log('The access token has been refreshed!');
         console.log('access_token:', access_token);
         spotifyApi.setAccessToken(access_token);
-        getMe();
       }, expires_in / 2 * 1000);
-      startStat();
+
+      //renders the top artists
+      spotifyApi.getMyTopArtists()
+        .then(data => {
+          let artists = data.body.items;
+          // filters data to only the artists name, followers, popularity index, and link respective link to spotify
+          let topArtists = artists.map((data) => {
+            return {
+              id: artists.indexOf(data) + 1,
+              name: data.name,
+              followers: data.followers.total,
+              popularity: data.popularity,
+              link: data.external_urls.spotify,
+              image: data.images[0].url
+            }
+          });
+          spotifyApi.getMyTopTracks()
+            .then(function (data) {
+              let topTracks = data.body.items;
+              // filters data to just the song name and the main artist name
+              let topSongs = topTracks.map((data) => {
+                return {
+                  id: topTracks.indexOf(data) + 1,
+                  image: data.album.images[0].url,
+                  name: data.name,
+                  artist: data.artists[0].name,
+                  popularity: data.popularity,
+                  link: data.external_urls.spotify
+                }
+              });
+              spotifyApi.getMe()
+                .then(data => {
+                  let info = data.body;
+                  // gets user's display name
+                  let username = { 'username': info.display_name }
+                  res.render('stats', {
+                    track: topSongs,
+                    artist: topArtists,
+                    me    : username
+                  });
+                  return;
+                })
+                .catch(err => {
+                  console.log(err);
+                  res.status(500).json(err);
+                  return;
+                });
+            })
+            .catch(err => {
+              console.log(err);
+              res.status(500).json(err);
+            });
+
+
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json(err);
+        });
+
+
     })
     .catch(error => {
       console.error('Error getting Tokens:', error);
@@ -107,4 +166,3 @@ app.get('/callback', (req, res) => {
 
 app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}`));
 
-module.exports = access_token;
