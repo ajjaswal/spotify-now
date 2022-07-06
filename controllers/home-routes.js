@@ -39,14 +39,15 @@ const scopes = [
 // render front page
 router.get('/', (req, res) => {
     res.render('home');
-    var key = myCache.get('access_token');
-    console.log(key)
 });
 
 // renders stats page with user info
 router.get('/stats', (req, res) => {
-    var key = myCache.get('access_token');
+
+    let key = myCache.get('access_token');
+
     spotifyApi.setAccessToken(key);
+
     spotifyApi.getMyTopArtists()
         .then(data => {
             let artistdata = data.body.items;
