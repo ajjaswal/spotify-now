@@ -1,24 +1,52 @@
 const router = require('express').Router();
+const NodeCache = require('node-cache');
+const myCache = new NodeCache();
 
 // temporary spotify token and api dependencies
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQBhlheas3za_uKhLQn9B2dI7y6Yb0FZim19lWzbe8oB5Iya1iM4hy4D9pTKq97zad_Q4HLfhYG43gs7GRz1pulxZJ2f_BwbdJ4KZeVW8GrMvnvz-ddUyymia0fr89lLWhWHJ3ZgF0_Ho7MlsMuYnK1QAeODcqqwCkBZnol0DmAJujJHWTOO7nyE2Z66wtaCZtMhuWsaIGkQEgmdS1fTtoTeBhY1FPbYfgbwFTxTsI0KVRyrSj6tZI7th57zf55i67NGcdSS_WARF_VY4QgNtNXgS0ZCD63g_Fzsn25ypAP_I_2eCRBOgBUfX_QyetpBWmYiRMw";
+
+let tokens;
 
 const spotifyApi = new SpotifyWebApi({
     clientId: '87505eacdc8642e1bcfee43d5ddca989',
     clientSecret: 'b9e0df3f205b42e0809ea37e1365c68e',
     redirectUri: 'http://localhost:3001/callback'
 });
-spotifyApi.setAccessToken(token);
 
+// what data we want to access 
+const scopes = [
+    'ugc-image-upload',
+    'user-read-playback-state',
+    'user-modify-playback-state',
+    'user-read-currently-playing',
+    'streaming',
+    'app-remote-control',
+    'user-read-email',
+    'user-read-private',
+    'playlist-read-collaborative',
+    'playlist-modify-public',
+    'playlist-read-private',
+    'playlist-modify-private',
+    'user-library-modify',
+    'user-library-read',
+    'user-top-read',
+    'user-read-playback-position',
+    'user-read-recently-played',
+    'user-follow-read',
+    'user-follow-modify'
+];
 
 // render front page
 router.get('/', (req, res) => {
     res.render('home');
+    var key = myCache.get('access_token');
+    console.log(key)
 });
 
 // renders stats page with user info
 router.get('/stats', (req, res) => {
+    var key = myCache.get('access_token');
+    spotifyApi.setAccessToken(key);
     spotifyApi.getMyTopArtists()
         .then(data => {
             let artistdata = data.body.items;
@@ -36,9 +64,69 @@ router.get('/stats', (req, res) => {
                 item.id = i + 1
             });
             res.render('stats', {artists});
-        })
+        });
 });
 
+// credentials from spotify developers dashboard
+// need to add redirectUri to spotify developers dashboard settings
+  
+  // go to this link to get access token in console
+  router.get('/login', (req, res) => {
+    res.redirect(spotifyApi.createAuthorizeURL(scopes));
+  });
+  
+  // spotify api parses data and gives access token
+  router.get('/callback', (req, res) => {
+    const error = req.query.error;
+    const code = req.query.code;
+    const state = req.query.state;
+  
+    if (error) {
+      console.error('Callback Error:', error);
+      res.send(`Callback Error: ${error}`);
+      return;
+    }
+  
+    spotifyApi
+      .authorizationCodeGrant(code)
+      .then(data => {
+        const access_token = data.body['access_token'];
+        const refresh_token = data.body['refresh_token'];
+        const expires_in = data.body['expires_in'];
+  
+        spotifyApi.setAccessToken(access_token);
+        spotifyApi.setRefreshToken(refresh_token);
+  
+        console.log('access_token:', access_token);
+        console.log('refresh_token:', refresh_token);
+  
+        console.log(
+          `Sucessfully retreived access token. Expires in ${expires_in} s.`
+        );
+        // res.send('Success! You can now close the window.');
+  
+        // sends user back to home after logging in through spotify
+        res.redirect('/');
+        
+        myCache.set('access_token', access_token);
 
+        // tokens.push({ 'access_token': access_token, 'refresh_token': refresh_token });
+        
+        setInterval(async () => {
+          const data = await spotifyApi.refreshAccessToken();
+          const access_token = data.body['access_token'];
+  
+          console.log('The access token has been refreshed!');
+          console.log('access_token:', access_token);
+          spotifyApi.setAccessToken(access_token);
+          getMe();
+        }, expires_in / 2 * 1000);
+  
+      })
+      .catch(error => {
+        console.error('Error getting Tokens:', error);
+        res.send(`Error getting Tokens: ${error}`);
+      });
+});
 
 module.exports = router;
