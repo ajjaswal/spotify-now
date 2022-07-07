@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const routes = require('./controllers');
 const path = require('path')
@@ -9,8 +8,8 @@ const PORT = process.env.PORT || 3001;
 // add express handlebars
 const exphbs = require('express-handlebars');
 const hbs = exphbs.create({})
-app.engine('hbs', exphbs.engine( {extname: '.hbs'}));
-app.set('view engine', 'hbs');
+app.engine('handlebars', exphbs.engine());
+app.set('view engine', 'handlebars');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

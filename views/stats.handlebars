@@ -16,7 +16,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each artist}}
+      {{#each artists}}
       <tr class="artist-grid">
         <th scope="row" class="w-auto">{{id}}</th>
         <td><img src={{image}} alt={{name}} class="img-responsive"></td>
@@ -47,11 +47,11 @@
       </tr>
     </thead>
     <tbody>
-      {{#each track}}
+      {{#each songs}}
       <tr class="artist-grid">
         <th scope="row" class="w-auto">{{id}}</th>
-        <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-        <td><a href={{link}}>{{name}} </a></td>
+        <td><img src={{image}} alt={{song}} class="img-responsive"></td>
+        <td><a href={{link}}>{{song}} </a></td>
         <td>{{artist}}</td>
         <td>{{popularity}}</td>
       </tr>
