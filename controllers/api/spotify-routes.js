@@ -1,13 +1,15 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQCaO0030JEg8h-UafDlboeA8_uajcr3xGzHucLZ5XBO4LHFWhgxZIF0BTOVQTZxDFIbVvq31QXJSKjp4uWkSexTz-LxCxA10KXkemOgbDxQwhIL4o7BXhS8yxjpKfBZ_gO5Gke3Vl1aTpQs5O5SXZrCR0obyKIyjKkMgslwmP4d7srQdYboISzSwpc60gcWaC6TaWYKRtZOSREjOSDaaZCFyIzd1tWsqrhrRspuMzZYBFoJsgM5-rnjFtPNW1_cxbMuEx8RSCNHdbElbQpyOKJvzNkbmTM-LYktBUGFBPO-kOw27UHWEXV9b_LQ";
+const token ="BQC9zOwbE0eWBlWL0thO5Ri92AFkMwtU_fa3mF8DyKJw09ZrmC8NfqDhQ0CTmSz-UPF-XkafhggE0by_6rLNT0iTVH7Up6NDzCn_K8tBeLX9YEcT_bIftZsy6YmkinvmzGPqTsGP9Op05Kgy8mk33n8HTifCf-rhMDjK5zXphb_BWWTRxhrqI3ZVvJWXhAxm_B2eGBoQ0XdGfSauI55Z2equMcte9iZC4a4OmevNXCrhtz-FQcBBiiZ5EuYZqoavVC4wvg15jgyPdPfHb6Op3ltEKz5xlrBVpIa_WL3u2-_WbaTgZohrvq4Msux0mBnIq0cV3Q";
 
 const spotifyApi = new SpotifyWebApi({
-    clientId: '09efa3cfa0e84b848255d04d42cd5ed8',
-    clientSecret: 'a8ad2114b90045c8893d02d6446fabb0',
+    clientId: 'be6d6cea500242db91d8960be9638a5d',
+    clientSecret: '2c1169e6b3cb44359989797fddc1954f',
     redirectUri: 'http://localhost:3001/callback'
+    
 });
 spotifyApi.setAccessToken(token);
+
 
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
@@ -16,11 +18,13 @@ router.get('/', (req, res) => {
             let info = data.body;
             // gets user's display name
             let username = { 'username': info.display_name}
-            res.json(username); 
+            res.json(info); 
+            return;
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
+            return;
         });
 }); 
 
@@ -30,13 +34,14 @@ router.get('/songs', (req, res) => {
         .then(function(data) {
             let topTracks = data.body.items;
             // filters data to just the song name and the main artist name
-            let topFive = topTracks.map((data) => {
+            let topSongs = topTracks.map((data) => {
                 return {
                     song: data.name,
                     artist: data.artists[0].name
                 }
             });
-            res.json(topFive);
+            res.json(topTracks);
+            
         })
         .catch(err => {
             console.log(err);
@@ -52,19 +57,24 @@ router.get('/artists', (req, res) => {
             // filters data to only the artists name, followers, popularity index, and link respective link to spotify
             let topArtists = artists.map((data) => {
                 return {
+                    id: artists.indexOf(data) + 1,
                     name: data.name,
                     followers: data.followers.total,
                     popularity: data.popularity,
                     link: data.external_urls.spotify
                 }
             });
-            res.json(topArtists);
+           
+            res.json(artists);
+            
         })
         .catch(err => {
             console.log(err);
             res.status(500).json(err);
         });
 });
+
+
 
 
 
