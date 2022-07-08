@@ -11,6 +11,8 @@ const spotifyApi = new SpotifyWebApi({
 spotifyApi.setAccessToken(token);
 
 
+
+
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
     spotifyApi.getMe()

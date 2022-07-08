@@ -5,8 +5,6 @@ const myCache = new NodeCache();
 // temporary spotify token and api dependencies
 const SpotifyWebApi = require("spotify-web-api-node");
 
-let tokens;
-
 const spotifyApi = new SpotifyWebApi({
    clientId: "87505eacdc8642e1bcfee43d5ddca989",
    clientSecret: "b9e0df3f205b42e0809ea37e1365c68e",
@@ -80,9 +78,9 @@ router.get("/stats", (req, res) => {
          spotifyApi.getMe().then((data) => {
             let info = data.body;
             let username = { username: info.display_name };
-
             // sends data to stats handlebars
-            res.render('stats', { artists, songs, username });
+            res.render('stats', { artists, songs, username});
+            res
           });
       });
    });
@@ -125,7 +123,7 @@ router.get("/callback", (req, res) => {
          // res.send('Success! You can now close the window.');
 
          // sends user back to home after logging in through spotify
-         res.redirect("/");
+        
 
          myCache.set("access_token", access_token);
 
@@ -138,8 +136,8 @@ router.get("/callback", (req, res) => {
             console.log("The access token has been refreshed!");
             console.log("access_token:", access_token);
             spotifyApi.setAccessToken(access_token);
-            getMe();
          }, (expires_in / 2) * 1000);
+         res.redirect("/stats");
       })
       .catch((error) => {
          console.error("Error getting Tokens:", error);
