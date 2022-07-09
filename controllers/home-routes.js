@@ -6,8 +6,8 @@ const myCache = new NodeCache();
 const SpotifyWebApi = require("spotify-web-api-node");
 
 const spotifyApi = new SpotifyWebApi({
-   clientId: "87505eacdc8642e1bcfee43d5ddca989",
-   clientSecret: "b9e0df3f205b42e0809ea37e1365c68e",
+   clientId: "09efa3cfa0e84b848255d04d42cd5ed8",
+   clientSecret: "a8ad2114b90045c8893d02d6446fabb0",
    redirectUri: "http://localhost:3001/callback",
 });
 
