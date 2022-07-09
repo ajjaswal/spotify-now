@@ -1,61 +1,85 @@
-<article class="artist-intro">
-  <div>
-    <h1>Your top artists for the past 6 months are:</h1>
+
+
+<section class="stats-page">
+<div class="table-section">
+  <section class="tab-wrapper" id="tab-wrapper">
+    <div id="artist-tab" class="tab">
+      Top Artists
+    </div>
+    <div id="song-tab" class="tab">
+      Top Songs
+    </div>
+  </section>
+  <div class="artist-wrapper artist" >
+    <table class="table table-sm table-dark" id="top-artists">
+      <thead>
+        <tr>
+          <th scope="col" class="w-auto">#</th>
+          <th scope="col"></th>
+          <th scope="col">Name</th>
+          <th scope="col">Followers</th>
+          <th scope="col">Popularity Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each artists}}
+        <tr class="artist-grid">
+          <th scope="row" class="w-auto">{{id}}</th>
+          <td><img src={{image}} alt={{name}} class="img-responsive"></td>
+          <td><a href={{link}}>{{name}} </a></td>
+          <td>{{followers}}</td>
+          <td>{{popularity}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
-</article>
 
-<div class = "artist-wrapper">
-  <table class="table table-sm table-dark" id="top-artists">
-    <thead>
-      <tr>
-        <th scope="col"class="w-auto">#</th>
-        <th scope="col"></th>
-        <th scope="col">Name</th>
-        <th scope="col">Followers</th>
-        <th scope="col">Popularity Index</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each artist}}
-      <tr class="artist-grid">
-        <th scope="row" class="w-auto">{{id}}</th>
-        <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-        <td><a href={{link}}>{{name}} </a></td>
-        <td>{{followers}}</td>
-        <td>{{popularity}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-<article class="artist-intro">
-  <div>
-    <h1>Your top songs for the past 6 months are:</h1>
+  <div class="artist-wrapper song">
+    <table class="table table-sm table-dark" id="top-songs">
+      <thead>
+        <tr>
+          <th scope="col" class="w-auto">#</th>
+          <th scope="col"></th>
+          <th scope="col">Song</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Popularity Index</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each songs}}
+        <tr class="artist-grid">
+          <th scope="row" class="w-auto">{{id}}</th>
+          <td><img src={{image}} alt={{song}} class="img-responsive"></td>
+          <td><a href={{link}}>{{song}} </a></td>
+          <td>{{artist}}</td>
+          <td>{{popularity}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
-</article>
-
-<div class = "artist-wrapper">
-  <table class="table table-sm table-dark" id="top-songs">
-    <thead>
-      <tr>
-        <th scope="col"class="w-auto">#</th>
-        <th scope="col"></th>
-        <th scope="col">Song</th>
-        <th scope="col">Artist</th>
-        <th scope="col">Popularity Index</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each track}}
-      <tr class="artist-grid">
-        <th scope="row" class="w-auto">{{id}}</th>
-        <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-        <td><a href={{link}}>{{name}} </a></td>
-        <td>{{artist}}</td>
-        <td>{{popularity}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
 </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+  
+$("#artist-tab").click(function() {
+    $("#top-songs").css("display", "none");
+    $("#top-artists").css("display", "table");
+    
+    $("#song-tab").css("background-color","#454d55");
+    $("#artist-tab").css("background-color", "#343a40");
+}); 
+
+$("#song-tab").click(function() {
+    console.log("test");
+    $("#top-artists").css("display", "none");
+    $("#top-songs").css("display", "table");
+    $("#song-tab").css("background-color","#343a40");
+    $("#artist-tab").css("background-color", "#454d55");
+}); 
+</script>
