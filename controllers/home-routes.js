@@ -105,6 +105,7 @@ router.get('/playlists', (req, res) => {
          link: data.external_urls.spotify,
          length: data.tracks.total,
       }));
+      /*
       // creates playlists. takes playlist name as argument
       spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
       .then(data => {
@@ -124,11 +125,37 @@ router.get('/playlists', (req, res) => {
            spotifyApi.addTracksToPlaylist(getId, result);
          }) 
       })
+      */
+
       
       res.render('playlists', {playlist});
    })
    
+});
+
+router.get("/generate", (req, res) => {
+   // creates playlists. takes playlist name as argument
+   spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
+   .then(data => {
+      // playlist id from created playlist
+      let getId = data.body.id;
+      // get user top tracks
+      spotifyApi.getMyTopTracks().then(function(data){
+         let getTracks = data.body.items;
+        // get track uri to pass into add tracktoplaylist
+         let topSongs = getTracks.map((data) =>({
+            value: data.uri,
+         }))
+       
+        let result = topSongs.map(function(song){return song['value'];})
+        
+        // adds users top songs to spotify now top songs playlist 
+        spotifyApi.addTracksToPlaylist(getId, result);
+      }) 
+   })
+   res.render('generate');
 })
+
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
 

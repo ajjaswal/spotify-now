@@ -10,9 +10,9 @@ const spotifyApi = new SpotifyWebApi({
 });
 // spotifyApi.setAccessToken(token);
 // grabs key from node-cache
-let key = myCache.get("access_token");
+// let key = myCache.get("access_token");
 // sets access token from key
-spotifyApi.setAccessToken(key);
+// spotifyApi.setAccessToken(key);
 
 
 
