@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQBhlheas3za_uKhLQn9B2dI7y6Yb0FZim19lWzbe8oB5Iya1iM4hy4D9pTKq97zad_Q4HLfhYG43gs7GRz1pulxZJ2f_BwbdJ4KZeVW8GrMvnvz-ddUyymia0fr89lLWhWHJ3ZgF0_Ho7MlsMuYnK1QAeODcqqwCkBZnol0DmAJujJHWTOO7nyE2Z66wtaCZtMhuWsaIGkQEgmdS1fTtoTeBhY1FPbYfgbwFTxTsI0KVRyrSj6tZI7th57zf55i67NGcdSS_WARF_VY4QgNtNXgS0ZCD63g_Fzsn25ypAP_I_2eCRBOgBUfX_QyetpBWmYiRMw";
+const token ="BQA4D6dycHgVVrZVGUfjpG8rSVJsqYBWtjdTlRYJ_MKsFiYfFxL1QZYYiBv0ei76DXL-6GkEODhil1ZRgxyWt-1UXm0AaZ8acBE_O_7wse0Hc6oyBD8i1Qivxk16zh5DshXk9K7trh51ygAptq9dO7KRg7lZ115UDEdzoUlkipgaoM5av_Q6lUio7VB-3ehIp0Gx8Y29yMIVa3gjJYKtA9z8pt6khyjICY0emuCcLm5zS_vtpRMybbqAuZUeXiRIJzQ7r0pMSMQYO5sk6Q_7S-fyZW6qJZElxUP_gEr29T0Dzsjn_b6xCFCgLdrc";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
@@ -43,7 +43,7 @@ router.get('/songs', (req, res) => {
                     image: data.album.images[1].url
                 }
             });
-            res.json(topTracks);
+            res.json(topSongs);
             
         })
         .catch(err => {
@@ -69,7 +69,7 @@ router.get('/artists', (req, res) => {
                 }
             });
            
-            res.json(artists);
+            res.json(topArtists);
             
         })
         .catch(err => {
@@ -78,6 +78,31 @@ router.get('/artists', (req, res) => {
         });
 });
 
+router.get('/playlists', (req, res) => {
+    spotifyApi.getUserPlaylists()
+    .then(data => {
+        let info = data.body.items;
+        let playlist = info.map((data) => ({
+            name: data.name,
+            link: data.external_urls.spotify,
+            href: data.href,
+            length: data.tracks.total,
+            tref: data.tracks.href,
+        }));
+
+        res.json(playlist);
+        
+
+    })
+});
+
+router.post('/playlists', (req, res) => {
+    
+    spotifyApi.createPlaylist('SpotifyNow Playlist',{'description': 'SpotifyNow generated playlist', 'public': true})
+    .then(data => {
+        res.json(data);
+})
+});
 
 
 
