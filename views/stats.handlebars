@@ -1,85 +1,120 @@
-
-
 <section class="stats-page">
-<div class="table-section">
-  <section class="tab-wrapper" id="tab-wrapper">
-    <div id="artist-tab" class="tab">
-      Top Artists
-    </div>
-    <div id="song-tab" class="tab">
-      Top Songs
-    </div>
-  </section>
-  <div class="artist-wrapper artist" >
-    <table class="table table-sm table-dark" id="top-artists">
-      <thead>
-        <tr>
-          <th scope="col" class="w-auto">#</th>
-          <th scope="col"></th>
-          <th scope="col">Name</th>
-          <th scope="col">Followers</th>
-          <th scope="col">Popularity Index</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each artists}}
-        <tr class="artist-grid">
-          <th scope="row" class="w-auto">{{id}}</th>
-          <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-          <td><a href={{link}}>{{name}} </a></td>
-          <td>{{followers}}</td>
-          <td>{{popularity}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+  <article class="container" id="top-section">
+    <section>
+      <p class="stats-intro">{{username.username}}, here is your Spotify Now report: </p>
+    </section>
+    <div id="top" class="row">
+      <div class="col-lg-3 img-wrapper">
+        <img src={{songs.0.image}} id="top-pic">
+      </div>
+      <div class="col-lg-8 text-wrapper">
+        <p>Your top song of the year:</p>
+        <h2>{{songs.0.song}} by {{songs.0.artist}}</h3>
+        <p>{{songs.0.song}} has a popularity index of:</p>
+        <h2>{{songs.0.popularity}}</h3>
+        <p>song preview:</p>
+        <audio controls class="player">
+          <source src={{songs.0.preview}} />
+        </audio>
 
-  <div class="artist-wrapper song">
-    <table class="table table-sm table-dark" id="top-songs">
-      <thead>
-        <tr>
-          <th scope="col" class="w-auto">#</th>
-          <th scope="col"></th>
-          <th scope="col">Song</th>
-          <th scope="col">Artist</th>
-          <th scope="col">Popularity Index</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each songs}}
-        <tr class="artist-grid">
-          <th scope="row" class="w-auto">{{id}}</th>
-          <td><img src={{image}} alt={{song}} class="img-responsive"></td>
-          <td><a href={{link}}>{{song}} </a></td>
-          <td>{{artist}}</td>
-          <td>{{popularity}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
+      </div>
+    </div>
+    </div>
+    <div id="top" class="row">
+      <div class="col-lg-3 img-wrapper">
+        <img src={{artists.0.image}} id="top-pic">
+      </div>
+      <div class="col-lg-8 text-wrapper">
+        <p>Your top artist of the year:</p>
+        <h2>{{artists.0.name}}</h2>
+        <p>{{artists.0.name}} has a popularity index of:<p>
+        <h2>{{artists.0.popularity}}</h2>
+        <p>{{artists.0.name}} has a spotify follower count of:
+        <h2>{{artists.0.followers}}</h2>
+      </div>
+    </div>
+  </article>
+
+
+  <div class="table-section">
+    <section class="tab-wrapper" id="tab-wrapper">
+      <div id="artist-tab" class="tab">
+        Top Artists
+      </div>
+      <div id="song-tab" class="tab">
+        Top Songs
+      </div>
+    </section>
+    <div class="artist-wrapper artist">
+      <table class="table table-sm table-dark" id="top-artists">
+        <thead>
+          <tr>
+            <th scope="col" class="w-auto">#</th>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Followers</th>
+            <th scope="col">Popularity Index</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each artists}}
+          <tr class="artist-grid">
+            <th scope="row" class="w-auto">{{id}}</th>
+            <td><img src={{image}} alt={{name}} class="img-responsive"></td>
+            <td><a href={{link}}>{{name}} </a></td>
+            <td>{{followers}}</td>
+            <td>{{popularity}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="artist-wrapper song">
+      <table class="table table-sm table-dark" id="top-songs">
+        <thead>
+          <tr>
+            <th scope="col" class="w-auto">#</th>
+            <th scope="col"></th>
+            <th scope="col">Song</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Popularity Index</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each songs}}
+          <tr class="artist-grid">
+            <th scope="row" class="w-auto">{{id}}</th>
+            <td><img src={{image}} alt={{song}} class="img-responsive"></td>
+            <td><a href={{link}}>{{song}} </a></td>
+            <td>{{artist}}</td>
+            <td>{{popularity}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </section>
 
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-  
-$("#artist-tab").click(function() {
+
+  $("#artist-tab").click(function () {
     $("#top-songs").css("display", "none");
     $("#top-artists").css("display", "table");
-    
-    $("#song-tab").css("background-color","#454d55");
-    $("#artist-tab").css("background-color", "#343a40");
-}); 
 
-$("#song-tab").click(function() {
-    console.log("test");
+    $("#song-tab").css("background-color", "#454d55");
+    $("#artist-tab").css("background-color", "#343a40");
+  });
+
+  $("#song-tab").click(function () {
+
     $("#top-artists").css("display", "none");
     $("#top-songs").css("display", "table");
-    $("#song-tab").css("background-color","#343a40");
+    $("#song-tab").css("background-color", "#343a40");
     $("#artist-tab").css("background-color", "#454d55");
-}); 
+  }); 
 </script>

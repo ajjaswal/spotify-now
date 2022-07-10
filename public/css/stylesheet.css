@@ -33,7 +33,7 @@ body {
 }
 .table {
     width: 100%;
-    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
@@ -52,11 +52,12 @@ body {
 }
 .tab {
     color:#fffffd;
-    font-size: 3em;
+    font-size: 2.5em;
     margin:0px;
     width:100%;
     padding:5px;
     text-align: center;
+    cursor: pointer;
 }
 #artist-tab {
    background-color: #343a40;
@@ -82,12 +83,36 @@ body {
     display:flex;
     justify-content: center;
     background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+    padding:25px;
 }
-img {
-    max-width: 100%;
-    max-height:100%;
-    width:100px;
-    height:100px;
+.table-section img {
+    /*max-width: 100%;
+    max-height:100%;*/
+    width:75px;
+    height:75px;
+}
+
+#top-pic{
+    width:300px;
+    height:300px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.img-wrapper {
+    padding:0px;
+}
+
+.text-wrapper {
+    margin:20px;
+    max-width: fit-content;
+}
+
+
+#top {
+    background-color: #ffed4b;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 25px;
+    border-radius: 8px;
 }
 
 .artist-intro {
@@ -96,6 +121,21 @@ img {
     font-family: 'Gotham';
 }
 
+@media screen and (max-width: 1200px) {
+    .table-section {
+        width:75%;
+
+    
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .table-section {
+        width:85%;
+        
+    
+    }
+}
 @media screen and (max-width: 480px) {
     .jumbotron {
         height:100vh; 
@@ -127,5 +167,21 @@ img {
         font-style: italic;
     }
 
+    .table-section {
+        width:100%;
+        
+    
+    }
+    .table-section img {
+        width:35px;
+        height:35px;
+    }
 
+    .player{
+        color: #fdcd3b;
+    }
+
+    .stats-intro {
+        font-size: 100px;
+    }
   }

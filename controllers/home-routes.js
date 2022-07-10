@@ -69,7 +69,10 @@ router.get("/stats", (req, res) => {
          let songs = songData.map((data) => ({
             song: data.name,
             artist: data.artists[0].name,
+            link: data.external_urls.spotify,
+            popularity: data.popularity,
             image: data.album.images[1].url,
+            preview: data.preview_url,
          }));
          songs.forEach((item, i) => {
             item.id = i + 1;
