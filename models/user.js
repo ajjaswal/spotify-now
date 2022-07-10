@@ -1,10 +1,10 @@
-const { Model, DataTypes } = require('sequelize');
+const{ Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-// create playlist model
-class Playlist extends Model{}
+// create user model
+class User extends Model{}
 
-Playlist.init(
+User.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -15,21 +15,13 @@ Playlist.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id'
-            }
         }
-    }, 
+    },
     {
         sequelize,
         freezeTableName: true,
         underscored: true,
-        modelName: 'playlist'
+        modelName: 'user'
     }
 );
-
-module.exports = Playlist;
+module.exports = User;
