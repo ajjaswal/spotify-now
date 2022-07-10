@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { Playlist } = require('../models');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 

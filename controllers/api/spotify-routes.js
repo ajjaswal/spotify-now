@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
+const { Playlist, User } = require('../../models');
 const token ="BQDv7Z5zEfQf5I_6plRUCU7BrxID4GDUzBwXpLZfFQRdfANpD9gDsZtUzLZiZQ6vJmmRQhSzw1cj21THGBYYIy3gpl7pRvZQJpquYw2aAALoNCLFs-x3I4d2L6TnPOUii4Rfhd01Nr6zrt1tgCnb1vZJ3xCVpSIJnOXhytNA08mXN_eCVVVE5GM0Jejs61Vu0P90zFhhVvZ8FftFI1JJ3pXUCNb2AiFqavm9HNmzNelQ-7TdMozo0vFxe0V9joeHa7MdYC_sxx8fGLCrYyyeo1bwI2AdoGhX2DigBqSGrPDK0VWDLRBPYDY2aes-fMhz3pw7Ww";
 
 const spotifyApi = new SpotifyWebApi({
@@ -18,6 +19,7 @@ const spotifyApi = new SpotifyWebApi({
 
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
+    User.findAll();
     spotifyApi.getMe()
         .then(data => {
             let info = data.body;
@@ -31,6 +33,7 @@ router.get('/', (req, res) => {
             res.status(500).json(err);
             return;
         });
+    
 }); 
 
 // display users top Songs
@@ -85,6 +88,7 @@ router.get('/artists', (req, res) => {
 });
 
 router.get('/playlists', (req, res) => {
+    Playlist.findAll();
     spotifyApi.getUserPlaylists()
     .then(data => {
         let info = data.body.items;
@@ -103,11 +107,15 @@ router.get('/playlists', (req, res) => {
 });
 
 router.post('/playlists', (req, res) => {
+    Playlist.create({
+        name: req.body.name,
+        user_id: req.body.user_id
+    })
     spotifyApi.createPlaylist('SpotifyNow',{'description': 'SpotifyNow generated playlist', 'public': true})
     .then(data => {
         let info = data.body.id;
-        res.json(info);
-})
+        res.json(info);})
+
 });
 
 
