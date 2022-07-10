@@ -88,16 +88,38 @@ router.get("/stats", (req, res) => {
 
 // render playlist page
 router.get('/playlists', (req, res) => {
+   // grabs key from node-cache
+   let key = myCache.get("access_token");
+   // sets access token from key
+   spotifyApi.setAccessToken(key);
+   // get user playlists
    spotifyApi.getUserPlaylists()
    .then(data => {
       let info = data.body.items;
       let playlist = info.map((data) => ({
          name: data.name,
          link: data.external_urls.spotify,
-         href: data.href,
          length: data.tracks.total,
-         trackref: data.tracks.href,
       }));
+      // creates playlists. takes playlist name as argument
+      spotifyApi.createPlaylist('songs',{'description': 'SpotifyNow generated playlist', 'public': true})
+      .then(data => {
+         // playlist id from created playlist
+         let getId = data.body.id;
+         // get user top tracks
+         spotifyApi.getMyTopTracks().then(function(data){
+            let getTracks = data.body.items;
+           // get track uri to pass into add tracktoplaylist
+            let topSongs = getTracks.map((data) => ({ 
+               uri: data.uri
+           }))
+
+           
+           // Error parsin json passing topsongs    
+            // spotifyApi.addTracksToPlaylist(getId, topSongs);
+         }) 
+      })
+      
       res.render('playlists', {playlist});
    })
    

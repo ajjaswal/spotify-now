@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQA4D6dycHgVVrZVGUfjpG8rSVJsqYBWtjdTlRYJ_MKsFiYfFxL1QZYYiBv0ei76DXL-6GkEODhil1ZRgxyWt-1UXm0AaZ8acBE_O_7wse0Hc6oyBD8i1Qivxk16zh5DshXk9K7trh51ygAptq9dO7KRg7lZ115UDEdzoUlkipgaoM5av_Q6lUio7VB-3ehIp0Gx8Y29yMIVa3gjJYKtA9z8pt6khyjICY0emuCcLm5zS_vtpRMybbqAuZUeXiRIJzQ7r0pMSMQYO5sk6Q_7S-fyZW6qJZElxUP_gEr29T0Dzsjn_b6xCFCgLdrc";
+const token ="BQCQE7nsqElXiYRH0QN6xwll3Bo070eoQzv6SxzMQWFwD7fKe-kP_Zr7s9xOe1jOogUrfHuE_iL-xlBbUIrbgO362clKmN_K-3BbP4BDR3J49A8p8u1xfzDuq0xhrygfIZ5WbqhH3FyamN5j2Zt4kWi4W1Ho3d7B1Nes-pHUDq_ozyfoVJgEiH8NrIw3oUqV6SSBE7ojZjcNF6C1bjm03OssB9azYbDhLt9LiehX43JvqjeM9bnU_vflNTgI9zpooYfDZYRAXBcheQ_D_1xkerPvQBAg7yHBEN-aR2c7RiR3DAQj_7I2lqzt7gt_";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
@@ -38,9 +38,12 @@ router.get('/songs', (req, res) => {
             // filters data to just the song name and the main artist name
             let topSongs = topTracks.map((data) => {
                 return {
+                    /*
                     song: data.name,
                     artist: data.artists[0].name,
                     image: data.album.images[1].url
+                    */
+                   uri: data.uri
                 }
             });
             res.json(topSongs);
@@ -98,9 +101,10 @@ router.get('/playlists', (req, res) => {
 
 router.post('/playlists', (req, res) => {
     
-    spotifyApi.createPlaylist('SpotifyNow Playlist',{'description': 'SpotifyNow generated playlist', 'public': true})
+    spotifyApi.createPlaylist('SpotifyNow',{'description': 'SpotifyNow generated playlist', 'public': true})
     .then(data => {
-        res.json(data);
+        let info = data.body.id;
+        res.json(info);
 })
 });
 
