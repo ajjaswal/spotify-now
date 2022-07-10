@@ -107,11 +107,15 @@ router.get('/playlists', (req, res) => {
 });
 
 router.post('/playlists', (req, res) => {
+    Playlist.create({
+        name: req.body.name,
+        user_id: req.body.user_id
+    })
     spotifyApi.createPlaylist('SpotifyNow',{'description': 'SpotifyNow generated playlist', 'public': true})
     .then(data => {
         let info = data.body.id;
-        res.json(info);
-})
+        res.json(info);})
+
 });
 
 
