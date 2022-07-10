@@ -18,6 +18,3 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(routes);
 
 app.listen(PORT, () => console.log(`now listening go to http://localhost:${PORT}`));
-
-
-
