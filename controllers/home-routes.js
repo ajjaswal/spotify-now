@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Playlist } = require('../models');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -102,7 +103,7 @@ router.get('/playlists', (req, res) => {
          length: data.tracks.total,
       }));
       // creates playlists. takes playlist name as argument
-      spotifyApi.createPlaylist('songs',{'description': 'SpotifyNow generated playlist', 'public': true})
+      spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
       .then(data => {
          // playlist id from created playlist
          let getId = data.body.id;
@@ -115,8 +116,8 @@ router.get('/playlists', (req, res) => {
            }))
 
            
-           // Error parsin json passing topsongs    
-            // spotifyApi.addTracksToPlaylist(getId, topSongs);
+           // Error parsing json passing topsongs    
+           // spotifyApi.addTracksToPlaylist(getId, [topSongs]);
          }) 
       })
       
