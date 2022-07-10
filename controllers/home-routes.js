@@ -111,13 +111,16 @@ router.get('/playlists', (req, res) => {
          spotifyApi.getMyTopTracks().then(function(data){
             let getTracks = data.body.items;
            // get track uri to pass into add tracktoplaylist
-            let topSongs = getTracks.map((data) => ({ 
-               uri: data.uri
-           }))
-
+            let topSongs = getTracks.map((data) =>({
+               value: data.uri,
+            }))
+           console.log(topSongs);
+           let result = topSongs.map(function(song){return song['value'];})
+           
+           //console.log(result);
            
            // Error parsing json passing topsongs    
-           // spotifyApi.addTracksToPlaylist(getId, [topSongs]);
+           spotifyApi.addTracksToPlaylist(getId, result);
          }) 
       })
       
