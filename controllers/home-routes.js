@@ -114,12 +114,10 @@ router.get('/playlists', (req, res) => {
             let topSongs = getTracks.map((data) =>({
                value: data.uri,
             }))
-           console.log(topSongs);
+          
            let result = topSongs.map(function(song){return song['value'];})
            
-           //console.log(result);
-           
-           // Error parsing json passing topsongs    
+           // adds users top songs to spotify now top songs playlist 
            spotifyApi.addTracksToPlaylist(getId, result);
          }) 
       })

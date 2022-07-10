@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
-const token ="BQCQE7nsqElXiYRH0QN6xwll3Bo070eoQzv6SxzMQWFwD7fKe-kP_Zr7s9xOe1jOogUrfHuE_iL-xlBbUIrbgO362clKmN_K-3BbP4BDR3J49A8p8u1xfzDuq0xhrygfIZ5WbqhH3FyamN5j2Zt4kWi4W1Ho3d7B1Nes-pHUDq_ozyfoVJgEiH8NrIw3oUqV6SSBE7ojZjcNF6C1bjm03OssB9azYbDhLt9LiehX43JvqjeM9bnU_vflNTgI9zpooYfDZYRAXBcheQ_D_1xkerPvQBAg7yHBEN-aR2c7RiR3DAQj_7I2lqzt7gt_";
+const NodeCache = require("node-cache");
+const myCache = new NodeCache();
+// const token ="BQCQE7nsqElXiYRH0QN6xwll3Bo070eoQzv6SxzMQWFwD7fKe-kP_Zr7s9xOe1jOogUrfHuE_iL-xlBbUIrbgO362clKmN_K-3BbP4BDR3J49A8p8u1xfzDuq0xhrygfIZ5WbqhH3FyamN5j2Zt4kWi4W1Ho3d7B1Nes-pHUDq_ozyfoVJgEiH8NrIw3oUqV6SSBE7ojZjcNF6C1bjm03OssB9azYbDhLt9LiehX43JvqjeM9bnU_vflNTgI9zpooYfDZYRAXBcheQ_D_1xkerPvQBAg7yHBEN-aR2c7RiR3DAQj_7I2lqzt7gt_";
 
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
@@ -8,8 +10,11 @@ const spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:3001/callback'
     
 });
-spotifyApi.setAccessToken(token);
-
+// spotifyApi.setAccessToken(token);
+// grabs key from node-cache
+let key = myCache.get("access_token");
+// sets access token from key
+spotifyApi.setAccessToken(key);
 
 
 
@@ -38,12 +43,12 @@ router.get('/songs', (req, res) => {
             // filters data to just the song name and the main artist name
             let topSongs = topTracks.map((data) => {
                 return {
-                    /*
+                    
                     song: data.name,
                     artist: data.artists[0].name,
                     image: data.album.images[1].url
-                    */
-                   uri: data.uri
+                    
+                   
                 }
             });
             res.json(topSongs);
@@ -100,7 +105,6 @@ router.get('/playlists', (req, res) => {
 });
 
 router.post('/playlists', (req, res) => {
-    
     spotifyApi.createPlaylist('SpotifyNow',{'description': 'SpotifyNow generated playlist', 'public': true})
     .then(data => {
         let info = data.body.id;
