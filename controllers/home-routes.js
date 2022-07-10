@@ -89,7 +89,18 @@ router.get("/stats", (req, res) => {
 // render playlist page
 router.get('/playlists', (req, res) => {
    spotifyApi.getUserPlaylists()
-   res.render('playlists');
+   .then(data => {
+      let info = data.body.items;
+      let playlist = info.map((data) => ({
+         name: data.name,
+         link: data.external_urls.spotify,
+         href: data.href,
+         length: data.tracks.total,
+         trackref: data.tracks.href,
+      }));
+      res.render('playlists', {playlist});
+   })
+   
 })
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
