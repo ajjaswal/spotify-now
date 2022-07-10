@@ -15,6 +15,19 @@
 
 }
 
+
+.row {
+    justify-content: space-between;
+}
+.stats-intro {
+    font-size: 2.5em;
+    font-weight:700;
+    text-align: center;
+    padding:20px;
+    font-family: 'Gotham';
+    font-style: italic;
+    
+}
 .title-jumbo {
     font-family: 'Gotham Ultra';
     font-size: 6em;
@@ -29,8 +42,10 @@
     font-style: italic;
 }
 body {
-    background-color:#70df6e;
+    background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
+    font-family: 'Gotham';
 }
+
 .table {
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -52,7 +67,7 @@ body {
 }
 .tab {
     color:#fffffd;
-    font-size: 2.5em;
+    font-size: 2em;
     margin:0px;
     width:100%;
     padding:5px;
@@ -73,23 +88,27 @@ body {
 #top-songs {
     display:none;
 }
+
+.top-section {
+    width: 100%;
+    min-width: 100%;
+    
+}
+
 .table-section {
-    width:50%;
     padding:10px;
     
     
 }
-.stats-page {
-    display:flex;
-    justify-content: center;
-    background: linear-gradient(110deg, #fdcd3b 60%, #ffed4b 60%);
-    padding:25px;
-}
+
+
+
 .table-section img {
     /*max-width: 100%;
     max-height:100%;*/
     width:75px;
     height:75px;
+    
 }
 
 #top-pic{
@@ -97,14 +116,20 @@ body {
     height:300px;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+    
 }
 .img-wrapper {
     padding:0px;
+    object-fit: contain;
 }
 
 .text-wrapper {
     margin:20px;
-    max-width: fit-content;
+    margin-left: 30px;
+    display:flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
 }
 
 
@@ -121,20 +146,14 @@ body {
     font-family: 'Gotham';
 }
 
-@media screen and (max-width: 1200px) {
-    .table-section {
-        width:75%;
-
-    
+@media screen and (max-width:1000px) {
+    .img-wrapper img {
+        min-width: 100%;
+        height:fit-content;
+        border-top-right-radius: 8px;
+        border-bottom-left-radius: 0%;
     }
-}
-
-@media screen and (max-width: 700px) {
-    .table-section {
-        width:85%;
         
-    
-    }
 }
 @media screen and (max-width: 480px) {
     .jumbotron {
@@ -157,7 +176,7 @@ body {
         font-size: 5em;
         font-weight: 700;
         font-style:italic;
-        color:#fffffd;
+        
     }
     .sub-title-jumbo {
         display: none;
@@ -177,11 +196,6 @@ body {
         height:35px;
     }
 
-    .player{
-        color: #fdcd3b;
-    }
+    
 
-    .stats-intro {
-        font-size: 100px;
-    }
   }

@@ -1,4 +1,4 @@
-<section class="stats-page">
+
   <article class="container" id="top-section">
     <section>
       <p class="stats-intro">{{username.username}}, here is your Spotify Now report: </p>
@@ -14,7 +14,7 @@
         <h2>{{songs.0.popularity}}</h3>
         <p>song preview:</p>
         <audio controls class="player">
-          <source src={{songs.0.preview}} />
+          <source src={{songs.0.preview}} >
         </audio>
 
       </div>
@@ -33,10 +33,8 @@
         <h2>{{artists.0.followers}}</h2>
       </div>
     </div>
-  </article>
-
-
-  <div class="table-section">
+    <h2 class="stats-intro">your top 20 songs and artists: </h2>
+    <div class="table-section">
     <section class="tab-wrapper" id="tab-wrapper">
       <div id="artist-tab" class="tab">
         Top Artists
@@ -95,7 +93,12 @@
       </table>
     </div>
   </div>
-</section>
+
+  </article>
+
+
+  
+
 
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
