@@ -8,7 +8,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const spotifyApi = new SpotifyWebApi({
    clientId: "be6d6cea500242db91d8960be9638a5d",
    clientSecret: "2c1169e6b3cb44359989797fddc1954f",
-   redirectUri: "http://localhost:3001/callback",
+   redirectUri: "https://spotify-wrapped-now.herokuapp.com/callback",
 });
 
 // what data we want to access
