@@ -1,0 +1,10 @@
+<section class="stats-page"> 
+<div class="col-lg-10 text-wrapper text-center" id="tab-wrapper">
+   <h2>Public Playlists</h2>
+    {{#each playlist}}
+    <p class="sub-title-jumbo">{{name}}</p>
+    <p>Tack Length: {{length}}</p>
+    <a href={{link}}>Link</a>
+    {{/each}}
+</div>
+</section>

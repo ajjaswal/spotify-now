@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const SpotifyWebApi = require("spotify-web-api-node");
+const { Playlist, User } = require('../../models');
 const token ="BQDv7Z5zEfQf5I_6plRUCU7BrxID4GDUzBwXpLZfFQRdfANpD9gDsZtUzLZiZQ6vJmmRQhSzw1cj21THGBYYIy3gpl7pRvZQJpquYw2aAALoNCLFs-x3I4d2L6TnPOUii4Rfhd01Nr6zrt1tgCnb1vZJ3xCVpSIJnOXhytNA08mXN_eCVVVE5GM0Jejs61Vu0P90zFhhVvZ8FftFI1JJ3pXUCNb2AiFqavm9HNmzNelQ-7TdMozo0vFxe0V9joeHa7MdYC_sxx8fGLCrYyyeo1bwI2AdoGhX2DigBqSGrPDK0VWDLRBPYDY2aes-fMhz3pw7Ww";
 
 const spotifyApi = new SpotifyWebApi({
@@ -8,13 +9,17 @@ const spotifyApi = new SpotifyWebApi({
     redirectUri: 'http://localhost:3001/callback'
     
 });
-spotifyApi.setAccessToken(token);
-
+// spotifyApi.setAccessToken(token);
+// grabs key from node-cache
+// let key = myCache.get("access_token");
+// sets access token from key
+// spotifyApi.setAccessToken(key);
 
 
 
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
+    User.findAll();
     spotifyApi.getMe()
         .then(data => {
             let info = data.body;
@@ -28,6 +33,7 @@ router.get('/', (req, res) => {
             res.status(500).json(err);
             return;
         });
+    
 }); 
 
 // display users top Songs
@@ -38,12 +44,15 @@ router.get('/songs', (req, res) => {
             // filters data to just the song name and the main artist name
             let topSongs = topTracks.map((data) => {
                 return {
+                    
                     song: data.name,
                     artist: data.artists[0].name,
                     image: data.album.images[1].url
+                    
+                   
                 }
             });
-            res.json(topTracks);
+            res.json(topSongs);
             
         })
         .catch(err => {
@@ -69,7 +78,7 @@ router.get('/artists', (req, res) => {
                 }
             });
            
-            res.json(artists);
+            res.json(topArtists);
             
         })
         .catch(err => {
@@ -78,6 +87,36 @@ router.get('/artists', (req, res) => {
         });
 });
 
+router.get('/playlists', (req, res) => {
+    Playlist.findAll();
+    spotifyApi.getUserPlaylists()
+    .then(data => {
+        let info = data.body.items;
+        let playlist = info.map((data) => ({
+            name: data.name,
+            link: data.external_urls.spotify,
+            href: data.href,
+            length: data.tracks.total,
+            tref: data.tracks.href,
+        }));
+
+        res.json(playlist);
+        
+
+    })
+});
+
+router.post('/playlists', (req, res) => {
+    Playlist.create({
+        name: req.body.name,
+        user_id: req.body.user_id
+    })
+    spotifyApi.createPlaylist('SpotifyNow',{'description': 'SpotifyNow generated playlist', 'public': true})
+    .then(data => {
+        let info = data.body.id;
+        res.json(info);})
+
+});
 
 
 
