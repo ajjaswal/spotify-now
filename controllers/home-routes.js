@@ -84,7 +84,7 @@ router.get("/stats", (req, res) => {
             let username = { username: info.display_name };
             // sends data to stats handlebars
             res.render('stats', { artists, songs, username});
-            res
+            
           });
       });
    });
