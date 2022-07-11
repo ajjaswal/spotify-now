@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const sequelize = require('../config/connection');
+const { Playlist } = require('../models');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -8,7 +10,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const spotifyApi = new SpotifyWebApi({
    clientId: "be6d6cea500242db91d8960be9638a5d",
    clientSecret: "2c1169e6b3cb44359989797fddc1954f",
-   redirectUri: "https://spotify-wrapped-now.herokuapp.com/callback",
+   redirectUri: "http://localhost:3001/callback",
 });
 
 // what data we want to access
@@ -91,51 +93,35 @@ router.get("/stats", (req, res) => {
 
 // render playlist page
 router.get('/playlists', (req, res) => {
-   // grabs key from node-cache
-   let key = myCache.get("access_token");
-   // sets access token from key
-   spotifyApi.setAccessToken(key);
-   // get user playlists
-   spotifyApi.getUserPlaylists()
-   .then(data => {
-      let info = data.body.items;
-      let playlist = info.map((data) => ({
-         name: data.name,
-         link: data.external_urls.spotify,
-         length: data.tracks.total,
-      }));
-      /*
-      // creates playlists. takes playlist name as argument
-      spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
-      .then(data => {
-         // playlist id from created playlist
-         let getId = data.body.id;
-         // get user top tracks
-         spotifyApi.getMyTopTracks().then(function(data){
-            let getTracks = data.body.items;
-           // get track uri to pass into add tracktoplaylist
-            let topSongs = getTracks.map((data) =>({
-               value: data.uri,
-            }))
-          
-           let result = topSongs.map(function(song){return song['value'];})
-           
-           // adds users top songs to spotify now top songs playlist 
-           spotifyApi.addTracksToPlaylist(getId, result);
-         }) 
-      })
-      */
-
-      
-      res.render('playlists', {playlist});
+   Playlist.findAll({
+      attributes: ['id', 'username', 'link']
    })
-   
+   .then(dbPlaylistData => {
+      const playlists = dbPlaylistData.map(playlist => playlist.get({ plain: true }));
+      res.render('playlists', {playlists});
+   })
+   .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+   });
+     
 });
 
 router.get("/generate", (req, res) => {
    // creates playlists. takes playlist name as argument
    spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
    .then(data => {
+
+      let username = data.body.owner.display_name;
+      let link = data.body.external_urls.spotify;
+
+      Playlist.create({
+         username: username,
+         link: link
+      });
+
+      res.json(data);
+
       // playlist id from created playlist
       let getId = data.body.id;
       // get user top tracks
@@ -148,12 +134,17 @@ router.get("/generate", (req, res) => {
        
         let result = topSongs.map(function(song){return song['value'];})
         
-        // adds users top songs to spotify now top songs playlist 
+        // adds user's top songs to spotify now top songs playlist 
         spotifyApi.addTracksToPlaylist(getId, result);
+
+      //   res.render('playlists')
       }) 
    })
-   res.render('generate');
-})
+   .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+   });
+});
 
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings

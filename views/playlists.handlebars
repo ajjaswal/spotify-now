@@ -1,12 +1,21 @@
-<section class="stats-page"> 
-<div class="col-lg-10 text-wrapper text-center" id="tab-wrapper">
-   <h2>Public Playlists</h2>
-    {{#each playlist}}
-    <p class="sub-title-jumbo">{{name}}</p>
-    <p>Tack Length: {{length}}</p>
-    <a href={{link}}>Link</a>
-    {{/each}}
+<div class="artist-wrapper artist">
+    <table class="table table-sm table-dark" id="top-artists">
+        <thead>
+            <tr>
+                <th scope="col" class="w-auto">#</th>
+                <th scope="col">User</th>
+                <th scope="col">Playlist Link</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {{#each playlists}}
+            <tr class="artist-grid">
+                <th scope="row" class="w-auto">{{id}}</th>  
+                <td>{{username}}</td>
+                <td><a href="{{link}}">Playlist Link Here</a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
-
-
-</section>

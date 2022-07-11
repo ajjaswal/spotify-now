@@ -12,20 +12,22 @@ Playlist.init(
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        username: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id'
+        link: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isUrl: true
             }
         }
     }, 
     {
         sequelize,
+        createdAt: false,
+        updatedAt: false,
         freezeTableName: true,
         underscored: true,
         modelName: 'playlist'
