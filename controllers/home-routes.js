@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const sequelize = require('../config/connection');
-const { User, Playlist } = require('../models');
+const { Playlist } = require('../models');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -94,11 +94,7 @@ router.get("/stats", (req, res) => {
 // render playlist page
 router.get('/playlists', (req, res) => {
    Playlist.findAll({
-      attributes: ['id', 'link'],
-      include: {
-         model: User,
-         attributes: ['id', 'name']
-      }
+      attributes: ['id', 'username', 'link']
    })
    .then(dbPlaylistData => {
       const playlists = dbPlaylistData.map(playlist => playlist.get({ plain: true }));
@@ -115,6 +111,17 @@ router.get("/generate", (req, res) => {
    // creates playlists. takes playlist name as argument
    spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
    .then(data => {
+
+      let username = data.body.owner.display_name;
+      let link = data.body.external_urls.spotify;
+
+      Playlist.create({
+         username: username,
+         link: link
+      });
+
+      res.json(data);
+
       // playlist id from created playlist
       let getId = data.body.id;
       // get user top tracks
@@ -130,7 +137,7 @@ router.get("/generate", (req, res) => {
         // adds user's top songs to spotify now top songs playlist 
         spotifyApi.addTracksToPlaylist(getId, result);
 
-        res.json(data);
+      //   res.render('playlists')
       }) 
    })
    .catch(err => {

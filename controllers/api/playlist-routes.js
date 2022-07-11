@@ -5,12 +5,7 @@ const sequelize = require("../../config/connection");
 // get all playlists
 router.get("/", (req, res) => {
     Playlist.findAll({
-        include: [
-            {
-                model: User,
-                attributes: ["id", "name"],
-            },
-        ],
+
     })
         .then((dbPlaylistData) => res.json(dbPlaylistData))
         .catch((err) => {
@@ -21,12 +16,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
     Playlist.findByPk(req.params.id, {
-        include: [
-            {
-                model: User,
-                attributes: ["id", "name"],
-            },
-        ],
+ 
     })
         .then((dbPlaylistData) => {
             if (!dbPlaylistData) {
@@ -43,9 +33,9 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
     Playlist.create({
-        link: req.body.link,
-        user_id: req.body.user_id
-    })
+        username: req.body.username,
+        link: req.body.link
+        })
         .then((dbPlaylistData) => res.json(dbPlaylistData))
         .catch((err) => {
             console.log(err);

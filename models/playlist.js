@@ -12,18 +12,15 @@ Playlist.init(
             primaryKey: true,
             autoIncrement: true
         },
+        username: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         link: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isUrl: true
-            }
-        },
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-                model: 'user',
-                key: 'id'
             }
         }
     }, 

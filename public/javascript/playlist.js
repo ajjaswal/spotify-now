@@ -1,7 +1,13 @@
 async function newPlaylistHandler(event) {
-    // event.preventDefault();
+    event.preventDefault();
 
-    document.location.replace('/playlists/')
+    const response = await fetch('/generate');
+
+    if (response.ok) {
+        document.location.replace('/playlists')
+    } else {
+        alert(response.statusText);
+    }
 };
 
 document.querySelector('.btn').addEventListener('click', newPlaylistHandler);
