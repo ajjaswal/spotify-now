@@ -10,12 +10,12 @@
             </tr>
         </thead>
         <tbody>
-            {{#each playlist}}
+            {{#each playlists}}
             <tr class="artist-grid">
-                <th scope="row" class="w-auto">{{id}}</th>
+                <th scope="row" class="w-auto">{{user.id}}</th>
                 <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-                <td>{{name}}'s playlist</td>
-                <td>{{followers}}</td>
+                <td>{{user.name}}'s playlist</td>
+                <td><a href="{{link}}">Playlist Link Here</a></td>
             </tr>
             {{/each}}
         </tbody>
