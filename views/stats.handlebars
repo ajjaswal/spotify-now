@@ -1,40 +1,44 @@
-
-  <article class="container" id="top-section">
-    <section>
-      <p class="stats-intro">{{username.username}}, here is your Spotify Now report: </p>
-    </section>
-    <div id="top" class="row">
-      <div class="col-lg-3 img-wrapper">
-        <img src={{songs.0.image}} id="top-pic">
-      </div>
-      <div class="col-lg-8 text-wrapper">
-        <p>Your top song of the year:</p>
-        <h2>{{songs.0.song}} by {{songs.0.artist}}</h3>
+<article class="container" id="top-section">
+  <section>
+    <p class="stats-intro">{{username.username}}, here is your Spotify Now report: </p>
+  </section>
+  <div id="top" class="row">
+    <div class="col-lg-3 img-wrapper">
+      <img src={{songs.0.image}} id="top-pic">
+    </div>
+    <div class="col-lg-8 text-wrapper">
+      <p>Your top song of the year:</p>
+      <h2>{{songs.0.song}} by {{songs.0.artist}}</h3>
         <p>{{songs.0.song}} has a popularity index of:</p>
         <h2>{{songs.0.popularity}}</h3>
-        <p>song preview:</p>
-        <audio controls class="player">
-          <source src={{songs.0.preview}} >
-        </audio>
+          <p>song preview:</p>
+          <audio controls class="player">
+            <source src={{songs.0.preview}}>
+          </audio>
 
-      </div>
     </div>
+  </div>
+  </div>
+  <div id="top" class="row">
+    <div class="col-lg-3 img-wrapper">
+      <img src={{artists.0.image}} id="top-pic">
     </div>
-    <div id="top" class="row">
-      <div class="col-lg-3 img-wrapper">
-        <img src={{artists.0.image}} id="top-pic">
-      </div>
-      <div class="col-lg-8 text-wrapper">
-        <p>Your top artist of the year:</p>
-        <h2>{{artists.0.name}}</h2>
-        <p>{{artists.0.name}} has a popularity index of:<p>
-        <h2>{{artists.0.popularity}}</h2>
-        <p>{{artists.0.name}} has a spotify follower count of:
-        <h2>{{artists.0.followers}}</h2>
-      </div>
+    <div class="col-lg-8 text-wrapper">
+      <p>Your top artist of the year:</p>
+      <h2>{{artists.0.name}}</h2>
+      <p>{{artists.0.name}} has a popularity index of:
+      <p>
+      <h2>{{artists.0.popularity}}</h2>
+      <p>{{artists.0.name}} has a spotify follower count of:
+      <h2>{{artists.0.followers}}</h2>
     </div>
-    <h2 class="stats-intro">your top 20 songs and artists: </h2>
-    <div class="table-section">
+  </div>
+
+  <div class="button-wrapper">
+      <button type="button" class="btn btn-dark">Generate your custom playlist</button>
+  </div>
+  <h2 class="stats-intro">your top 20 songs and artists: </h2>
+  <div class="table-section">
     <section class="tab-wrapper" id="tab-wrapper">
       <div id="artist-tab" class="tab">
         Top Artists
@@ -94,10 +98,10 @@
     </div>
   </div>
 
-  </article>
+</article>
 
 
-  
+
 
 
 
