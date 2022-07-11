@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th scope="col" class="w-auto">#</th>
-                <th scope="col"></th>
                 <th scope="col">User</th>
                 <th scope="col">Playlist Link</th>
 
@@ -12,9 +11,8 @@
         <tbody>
             {{#each playlists}}
             <tr class="artist-grid">
-                <th scope="row" class="w-auto">{{id}}</th>
-                <td><img src={{image}} alt={{name}} class="img-responsive"></td>
-                <td>{{username}}'s playlist</td>
+                <th scope="row" class="w-auto">{{id}}</th>  
+                <td>{{username}}</td>
                 <td><a href="{{link}}">Playlist Link Here</a></td>
             </tr>
             {{/each}}
