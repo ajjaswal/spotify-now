@@ -127,12 +127,17 @@ router.get("/generate", (req, res) => {
        
         let result = topSongs.map(function(song){return song['value'];})
         
-        // adds users top songs to spotify now top songs playlist 
+        // adds user's top songs to spotify now top songs playlist 
         spotifyApi.addTracksToPlaylist(getId, result);
+
+        res.json(data);
       }) 
    })
-   res.render('generate');
-})
+   .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+   });
+});
 
 // credentials from spotify developers dashboard
 // need to add redirectUri to spotify developers dashboard settings
