@@ -6,16 +6,9 @@ const token ="BQDv7Z5zEfQf5I_6plRUCU7BrxID4GDUzBwXpLZfFQRdfANpD9gDsZtUzLZiZQ6vJm
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
     clientSecret: '2c1169e6b3cb44359989797fddc1954f',
-    redirectUri: 'https://afternoon-bastion-74154.herokuapp.com/callback'
+    redirectUri: 'https://spotify-wrapped-now.herokuapp.com/callback'
     
 });
-// spotifyApi.setAccessToken(token);
-// grabs key from node-cache
-// let key = myCache.get("access_token");
-// sets access token from key
-// spotifyApi.setAccessToken(key);
-
-
 
 // gets basic user information (currently just username)
 router.get('/', (req, res) => {
