@@ -6,7 +6,7 @@ const token ="BQDv7Z5zEfQf5I_6plRUCU7BrxID4GDUzBwXpLZfFQRdfANpD9gDsZtUzLZiZQ6vJm
 const spotifyApi = new SpotifyWebApi({
     clientId: 'be6d6cea500242db91d8960be9638a5d',
     clientSecret: '2c1169e6b3cb44359989797fddc1954f',
-    redirectUri: 'https://spotify-wrapped-now.herokuapp.com/callback'
+    redirectUri: 'https://afternoon-bastion-74154.herokuapp.com/callback'
     
 });
 // spotifyApi.setAccessToken(token);
