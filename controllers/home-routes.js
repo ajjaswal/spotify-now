@@ -1,4 +1,6 @@
 const router = require("express").Router();
+const sequelize = require('../config/connection');
+const { User, Playlist } = require('../models');
 const NodeCache = require("node-cache");
 const myCache = new NodeCache();
 
@@ -91,45 +93,22 @@ router.get("/stats", (req, res) => {
 
 // render playlist page
 router.get('/playlists', (req, res) => {
-   // grabs key from node-cache
-   let key = myCache.get("access_token");
-   // sets access token from key
-   spotifyApi.setAccessToken(key);
-   // get user playlists
-   spotifyApi.getUserPlaylists()
-   .then(data => {
-      let info = data.body.items;
-      let playlist = info.map((data) => ({
-         name: data.name,
-         link: data.external_urls.spotify,
-         length: data.tracks.total,
-      }));
-      /*
-      // creates playlists. takes playlist name as argument
-      spotifyApi.createPlaylist('spotify now top songs',{'description': 'SpotifyNow generated playlist', 'public': true})
-      .then(data => {
-         // playlist id from created playlist
-         let getId = data.body.id;
-         // get user top tracks
-         spotifyApi.getMyTopTracks().then(function(data){
-            let getTracks = data.body.items;
-           // get track uri to pass into add tracktoplaylist
-            let topSongs = getTracks.map((data) =>({
-               value: data.uri,
-            }))
-          
-           let result = topSongs.map(function(song){return song['value'];})
-           
-           // adds users top songs to spotify now top songs playlist 
-           spotifyApi.addTracksToPlaylist(getId, result);
-         }) 
-      })
-      */
-
-      
-      res.render('playlists', {playlist});
+   Playlist.findAll({
+      attributes: ['id', 'link'],
+      include: {
+         model: User,
+         attributes: ['id', 'name']
+      }
    })
-   
+   .then(dbPlaylistData => {
+      const playlists = dbPlaylistData.map(playlist => playlist.get({ plain: true }));
+      res.render('playlists', {playlists});
+   })
+   .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+   });
+     
 });
 
 router.get("/generate", (req, res) => {

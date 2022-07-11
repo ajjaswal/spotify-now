@@ -5,11 +5,14 @@ const sequelize = require('../config/connection');
 
 const seedAll = async () => {
     await sequelize.sync({ force: true });
-    console.log('data base synced \n');
-    await seedPlaylists();
-    console.log('playlists seeded \n');
+    console.log('--------------------');
+
     await seedUsers();
-    console.log('users seeded \n')
+    console.log('--------------------');
+
+    await seedPlaylists();
+    console.log('--------------------');
+
 
     process.exit(0);
 };
