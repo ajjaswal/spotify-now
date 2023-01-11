@@ -52,6 +52,6 @@ SO THAT I can use the features of Spotify Wrapped year-round.
 
 ## Links
 
-Deployed:  https://spotify-wrapped-now.herokuapp.com/
+Deployed:  https://spotify-now-app.herokuapp.com/
 
 GitHub: https://github.com/ajjaswal/spotify-now
